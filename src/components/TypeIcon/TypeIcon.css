@@ -1,0 +1,21 @@
+.type-icon-container {
+  width: 2rem;
+  height: 2rem;
+  padding: 0.4rem;
+
+  border-radius: 50%;
+  background-color: grey;
+  box-shadow:
+    inset 0 -2px 8px black,
+    0 4px 6px rgba(0, 0, 0, 0.2);
+  color: black;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.type-icon-container > svg {
+  width: 100%;
+  height: 100%;
+}
