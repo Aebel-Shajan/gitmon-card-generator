@@ -1,3 +1,12 @@
+export interface GithubRepo {
+  name: string;
+  url: string;
+  size: number;
+  stargazers_count: number;
+  watchers_count: number;
+  language: string;
+  topics: string[];
+}
 export interface Move {
   types: string[];
   name: string;
