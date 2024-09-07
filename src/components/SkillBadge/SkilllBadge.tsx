@@ -4,16 +4,35 @@ import "./SkillBadge.css";
 
 const markdownBadgesMapper = markdownBadges as Mapper<string>;
 
+function handleEdgeCases(skill: string): string {
+  skill = skill.toLowerCase().replace(" ", "").replace("-", "");
+  if (skill == "html") {
+    return "html5";
+  }
+  if (skill == "css") {
+    return "css3";
+  }
+  return skill;
+}
+
 interface SkillBadgeProps {
   skill: string;
 }
 const SkillBadge = ({ skill }: SkillBadgeProps) => {
   let skillContent = <div className="skill-text">{skill}</div>;
+  const match = Object.keys(markdownBadges).filter((badge: string) => {
+    const standardisedBadge = badge
+      .toLowerCase()
+      .replace(" ", "")
+      .replace("-", "");
+    const standardisedSkill = handleEdgeCases(skill);
+    return standardisedBadge == standardisedSkill;
+  });
+
   // Use markdown badge if available
-  if (Object.keys(markdownBadges).includes(skill)) {
-    skillContent = (
-      <img className="skill-image" src={markdownBadgesMapper[skill]} />
-    );
+  if (match.length > 0) {
+    const badgePath = markdownBadgesMapper[match[0]];
+    skillContent = <img className="skill-image" src={badgePath} alt={skill} />;
   }
 
   return (
