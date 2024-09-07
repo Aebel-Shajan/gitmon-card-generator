@@ -1,0 +1,11 @@
+.blank-card-container {
+  width: 20rem;
+  height: 32rem;
+  padding: 1rem;
+
+  /* border: solid 1px black; */
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
