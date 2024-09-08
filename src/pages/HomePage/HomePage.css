@@ -1,6 +1,7 @@
 #home-page-container {
   width: 100%;
-  height: 100vh;
+  height: max(100vh, fit-content);
+  padding-bottom: 2rem;
 
   background-color: var(--color-bg-primary);
 
@@ -12,8 +13,8 @@
 
 #title {
   width: 100%;
-  padding: 3rem 0;
-  font-size: 3rem;
+  padding: 2rem 0;
+  font-size: 2.5rem;
 
   text-align: center;
   background-color: var(--color-bg-secondary);
@@ -42,4 +43,9 @@
   color: var(--color-text);
   background-color: var(--color-accent);
   border: none;
+  cursor: pointer;
+}
+#generate-button:hover {
+  background-color: var(--color-text);
+  color: var(--color-accent);
 }
