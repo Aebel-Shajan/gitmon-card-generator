@@ -1,6 +1,6 @@
 import "./UserCardFront.css";
 import TypeIcon from "../../TypeIcon/TypeIcon";
-import { getGitmonType } from "../../../utils/mappers.tsx";
+import { getGitmonType } from "../../../utils/helpers.tsx";
 import { Move, User } from "../../../types/global";
 import SkillBadge from "../../SkillBadge/SkilllBadge.tsx";
 

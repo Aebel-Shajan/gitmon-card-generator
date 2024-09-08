@@ -106,6 +106,7 @@ const TypeMapping: Mapper<GitmonType> = {
     icon: <FaDatabase />,
     color: "#FFD700", // Gold, representing the value of data
     keywords: [
+      "Python",
       "Pandas",
       "NumPy",
       "TensorFlow",
@@ -116,7 +117,8 @@ const TypeMapping: Mapper<GitmonType> = {
       "Jupyter",
       "SQL",
       "Hadoop",
-      "Spark",
+      "Apache",
+      "Apache Spark",
       "Kafka",
       "Airflow",
       "Machine Learning",
@@ -125,6 +127,7 @@ const TypeMapping: Mapper<GitmonType> = {
       "Big Data",
       "ETL",
       "Data Pipelines",
+      "Web Scraping",
     ],
   },
   cybersecurity: {
@@ -132,6 +135,11 @@ const TypeMapping: Mapper<GitmonType> = {
     icon: <FaShieldAlt />,
     color: "#228B22", // Forest green, symbolizing security and robustness
     keywords: [
+      "C",
+      "C++",
+      "Rust",
+      "Go",
+      "Assembly",
       "Penetration Testing",
       "OWASP",
       "Cybersecurity",
