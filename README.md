@@ -2,6 +2,7 @@
 
 Enter your github username to generate your own gitmon card.
 
+https://gitmon-card-generator.vercel.app/
 
 ## Technology Stack
 
