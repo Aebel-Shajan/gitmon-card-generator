@@ -46,7 +46,12 @@ const UserCardFront = ({ user, onClick }: UserCardFrontProps) => {
   return (
     <div className="card-container" style={colorOverride}>
       <div className="card-header-container">
-        <div className="card-title">{user.name}</div>
+        <div className="card-title">
+          <div className="card-name">
+            {user.name ? user.name : user.username}
+          </div>
+          <div className="card-id">{"# " + user.id}</div>
+        </div>
         <TypeIcon typeStyle={cardTypeStyle} />
       </div>
       <div className="card-image-container" onClick={onClick}>

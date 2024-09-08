@@ -13,6 +13,8 @@ export interface Move {
 }
 
 export interface User {
+  username: string;
+  id: number;
   name: string;
   type: string;
   image: string;

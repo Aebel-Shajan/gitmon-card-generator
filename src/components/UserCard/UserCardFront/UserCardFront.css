@@ -37,7 +37,15 @@
 
 .card-title {
   width: 75%;
+  height: 100%;
+  overflow: hidden;
+}
 
+.card-id {
+  font-size: xx-small;
+}
+
+.card-name {
   /* Stop text from overflowing to new line */
   white-space: nowrap;
   overflow: hidden;

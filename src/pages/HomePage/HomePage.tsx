@@ -85,7 +85,9 @@ async function getGithubUserData(username: string): Promise<User | undefined> {
 
     // Combine the data into a user object
     return {
-      name: userData.name + " #" + userData.id,
+      id: userData.id,
+      username: userData.login,
+      name: userData.name,
       type: "normal",
       image: userData.avatar_url,
       occupation: userData.company,
