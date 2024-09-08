@@ -4,6 +4,7 @@ import BlankCard from "../../components/UserCard/BlankCard/BlankCard";
 import { GithubRepo, Mapper, User } from "../../types/global";
 import "./HomePage.css";
 import LoadingOverlay from "../../components/LoadingOverlay/LoadingOverlay";
+import { calculateGitmonType } from "../../utils/helpers";
 
 function sortGithubRepos(githubRepos: GithubRepo[]): GithubRepo[] {
   return githubRepos.sort((a: GithubRepo, b: GithubRepo) => {
@@ -55,7 +56,7 @@ async function getGithubUserData(username: string): Promise<User | undefined> {
       `https://api.github.com/users/${username}`,
     );
     const repoResponse = await fetch(
-      `https://api.github.com/users/${username}/repos?per_page=100`,
+      `https://api.github.com/users/${username}/repos?per_page=200`,
     );
 
     // Handle errors
@@ -70,12 +71,21 @@ async function getGithubUserData(username: string): Promise<User | undefined> {
     const userData = await userResponse.json();
     let repoData = (await repoResponse.json()) as GithubRepo[];
 
+    // Obtain user type
+    const repoTags: string[] = [];
+    repoData.forEach((repo) => repoTags.push(repo.language, ...repo.topics));
+    const userType = calculateGitmonType(repoTags)[0].name;
+
     // Obtain top moves
     repoData = sortGithubRepos(repoData);
     const topThreeRepos = repoData.slice(0, Math.min(3, repoData.length));
     const repoMoves = topThreeRepos.map((repo: GithubRepo) => {
+      const repoTags = [repo.language, ...repo.topics];
+      const repoTypes = calculateGitmonType(repoTags)
+        .map((gitmonType) => gitmonType.name)
+        .slice(0, 2);
       return {
-        types: ["normal", "frontend"],
+        types: repoTypes,
         name: repo.name,
       };
     });
@@ -88,7 +98,7 @@ async function getGithubUserData(username: string): Promise<User | undefined> {
       id: userData.id,
       username: userData.login,
       name: userData.name,
-      type: "normal",
+      type: userType,
       image: userData.avatar_url,
       occupation: userData.company,
       description: userData.bio ? userData.bio : "No bio :(",

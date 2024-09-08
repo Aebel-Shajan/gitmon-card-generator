@@ -12,7 +12,9 @@ export function preprocessString(string: string): string {
 
 export function calculateGitmonType(tags: string[]): GitmonType[] {
   // Preprocess all tags
-  const normalizedTags = tags.map((tag) => preprocessString(tag));
+  const normalizedTags = tags
+    .filter((tag) => tag !== null)
+    .map((tag) => preprocessString(tag));
   const typeScores: Mapper<number> = {};
 
   for (const [typeName, { keywords }] of Object.entries(TypeMapping)) {
@@ -30,6 +32,10 @@ export function calculateGitmonType(tags: string[]): GitmonType[] {
 
   // Find maximum score
   const maxMatches = Math.max(...Object.values(typeScores));
+  if (maxMatches == 0) {
+    return [getGitmonType("normal")];
+  }
+
   // Obtain types which fit tags
   const bestTypes = Object.keys(typeScores).filter(
     (type) => typeScores[type] == maxMatches,
