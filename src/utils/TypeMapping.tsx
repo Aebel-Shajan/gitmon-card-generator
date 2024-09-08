@@ -1,47 +1,215 @@
 import {
-  FaBrain,
-  FaCloud,
+  FaBug,
   FaDatabase,
+  FaGamepad,
   FaInfinity,
+  FaMicrochip,
+  FaMobileAlt,
   FaReact,
   FaRegDotCircle,
   FaShieldAlt,
 } from "react-icons/fa";
 import { FaGear } from "react-icons/fa6";
-import { Mapper, TypeStyle } from "../types/global";
+import { GitmonType, Mapper } from "../types/global";
 
-const TypeMapping: Mapper<TypeStyle> = {
-  data: {
-    icon: <FaDatabase />,
-    color: "#ffff80", // light yellow
+const TypeMapping: Mapper<GitmonType> = {
+  frontend: {
+    name: "frontend",
+    icon: <FaReact />,
+    color: "#00D8FF", // Lighter React blue for modern front-end,
+    keywords: [
+      "HTML",
+      "CSS",
+      "JavaScript",
+      "React",
+      "Vue.js",
+      "Angular",
+      "Sass",
+      "Bootstrap",
+      "jQuery",
+      "TypeScript",
+      "TailwindCSS",
+      "Next.js",
+      "Gatsby",
+    ],
   },
   backend: {
+    name: "backend",
     icon: <FaGear />,
-    color: "#FF8C00", // dark orange
+    color: "#FF6347", // Tomato, gives a strong backend feel
+    keywords: [
+      "Node.js",
+      "Express",
+      "Django",
+      "Flask",
+      "Spring",
+      "Rails",
+      "Java",
+      "Python",
+      "Go",
+      "Ruby",
+      "PHP",
+      "MySQL",
+      "PostgreSQL",
+      "MongoDB",
+      "Redis",
+      "GraphQL",
+      "REST API",
+      "Kafka",
+      "Docker",
+    ],
   },
-  frontend: {
-    icon: <FaReact />,
-    color: "#61DAFB", // react blue
+  mobile: {
+    name: "mobile",
+    icon: <FaMobileAlt />,
+    color: "#FF69B4", // Hot pink, fresh and innovative for mobile
+    keywords: [
+      "Swift",
+      "Kotlin",
+      "React Native",
+      "Flutter",
+      "Objective-C",
+      "Java (Android)",
+      "iOS",
+      "Android",
+      "Cordova",
+      "Ionic",
+    ],
   },
   devops: {
+    name: "devops",
     icon: <FaInfinity />,
-    color: "#FF4500", // orange-red
+    color: "#48D1CC", // Medium turquoise, signifying constant flow and automation
+    keywords: [
+      "Docker",
+      "Kubernetes",
+      "Ansible",
+      "Terraform",
+      "AWS",
+      "Azure",
+      "Google Cloud",
+      "CI/CD",
+      "Jenkins",
+      "Bash",
+      "Linux",
+      "Nginx",
+      "Infrastructure",
+      "Monitoring",
+      "Terraform",
+      "Chef",
+      "Puppet",
+      "SRE",
+    ],
+  },
+  data: {
+    name: "data",
+    icon: <FaDatabase />,
+    color: "#FFD700", // Gold, representing the value of data
+    keywords: [
+      "Pandas",
+      "NumPy",
+      "TensorFlow",
+      "PyTorch",
+      "Scikit-learn",
+      "Keras",
+      "R",
+      "Jupyter",
+      "SQL",
+      "Hadoop",
+      "Spark",
+      "Kafka",
+      "Airflow",
+      "Machine Learning",
+      "Data Mining",
+      "Data Analysis",
+      "Big Data",
+      "ETL",
+      "Data Pipelines",
+    ],
   },
   cybersecurity: {
+    name: "cybersecurity",
     icon: <FaShieldAlt />,
-    color: "#32CD32", // lime green
+    color: "#228B22", // Forest green, symbolizing security and robustness
+    keywords: [
+      "Penetration Testing",
+      "OWASP",
+      "Cybersecurity",
+      "Ethical Hacking",
+      "Encryption",
+      "SSL/TLS",
+      "Firewall",
+      "IDS/IPS",
+      "Nmap",
+      "Wireshark",
+      "Snort",
+      "Metasploit",
+      "Security Auditing",
+    ],
   },
-  cloud: {
-    icon: <FaCloud />,
-    color: "#1E90FF", // dodger blue
+  gamedev: {
+    name: "gamedev",
+    icon: <FaGamepad />,
+    color: "#FF4500", // Orange-red, energetic and creative for game dev
+    keywords: [
+      "Unity",
+      "Unreal Engine",
+      "C++",
+      "C#",
+      "Game Design",
+      "3D Modeling",
+      "Shaders",
+      "DirectX",
+      "OpenGL",
+      "Game Physics",
+      "AI for Games",
+      "Graphics Programming",
+    ],
   },
-  ai: {
-    icon: <FaBrain />,
-    color: "#FF1493", // deep pink
+  systems: {
+    name: "systems",
+    icon: <FaMicrochip />,
+    color: "#696969", // Dim gray, representing low-level and hardware close systems
+    keywords: [
+      "C",
+      "C++",
+      "Rust",
+      "Go",
+      "Assembly",
+      "Operating Systems",
+      "Linux Kernel",
+      "Embedded Systems",
+      "Drivers",
+      "Concurrency",
+      "Multithreading",
+      "Performance Optimization",
+      "Compilers",
+    ],
+  },
+  qa: {
+    name: "qa",
+    icon: <FaBug />,
+    color: "#FF8C00", // Dark orange, representing attention to detail and testing
+    keywords: [
+      "Selenium",
+      "Cypress",
+      "JUnit",
+      "Mocha",
+      "Jest",
+      "Test Automation",
+      "CI/CD",
+      "Integration Testing",
+      "Unit Testing",
+      "Test Coverage",
+      "QA",
+      "Load Testing",
+    ],
   },
   normal: {
+    name: "normal",
     icon: <FaRegDotCircle />,
-    color: "#d3d3d3", // light grey
+    color: "#C0C0C0", // Silver, neutral and generic for uncategorized types
+    keywords: ["life"],
   },
 };
 

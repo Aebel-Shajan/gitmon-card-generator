@@ -24,9 +24,11 @@ export interface User {
   moves: move[];
 }
 
-export interface TypeStyle {
+export interface GitmonType {
+  name: string;
   icon: React.ReactElement;
   color: string;
+  keywords: string[];
 }
 
 export interface Mapper<T> {

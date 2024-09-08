@@ -1,6 +1,6 @@
 import "./UserCardFront.css";
 import TypeIcon from "../../TypeIcon/TypeIcon";
-import { getTypeStyle } from "../../../utils/mappers.tsx";
+import { getGitmonType } from "../../../utils/mappers.tsx";
 import { Move, User } from "../../../types/global";
 import SkillBadge from "../../SkillBadge/SkilllBadge.tsx";
 
@@ -13,7 +13,7 @@ const TypesComponent = ({ types }: TypesComponentProps) => {
     <div className="move-type-container">
       {types.map((type, index) => {
         return (
-          <TypeIcon key={`move type${index}`} typeStyle={getTypeStyle(type)} />
+          <TypeIcon key={`move type${index}`} type={getGitmonType(type)} />
         );
       })}
     </div>
@@ -39,9 +39,9 @@ interface UserCardFrontProps {
 }
 
 const UserCardFront = ({ user, onClick }: UserCardFrontProps) => {
-  const cardTypeStyle = getTypeStyle(user.type);
+  const cardType = getGitmonType(user.type);
   const colorOverride = {
-    "--type-color-transparent": cardTypeStyle["color"] + "88",
+    "--type-color-transparent": cardType["color"] + "88",
   } as React.CSSProperties;
   return (
     <div className="card-container" style={colorOverride}>
@@ -52,7 +52,7 @@ const UserCardFront = ({ user, onClick }: UserCardFrontProps) => {
           </div>
           <div className="card-id">{"# " + user.id}</div>
         </div>
-        <TypeIcon typeStyle={cardTypeStyle} />
+        <TypeIcon type={cardType} />
       </div>
       <div className="card-image-container" onClick={onClick}>
         <img className="card-image" src={user.image} />

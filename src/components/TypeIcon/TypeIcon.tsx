@@ -1,23 +1,19 @@
+import { GitmonType } from "../../types/global";
 import "./TypeIcon.css";
 
-interface typeStyle {
-  icon: React.ReactElement;
-  color: string;
-}
-
 interface TypeIconProps {
-  typeStyle: typeStyle;
+  type: GitmonType;
 }
 
-const TypeIcon = ({ typeStyle }: TypeIconProps) => {
+const TypeIcon = ({ type }: TypeIconProps) => {
   return (
     <div
       className="type-icon-container"
       style={{
-        backgroundColor: typeStyle["color"],
+        backgroundColor: type["color"],
       }}
     >
-      {typeStyle["icon"]}
+      {type["icon"]}
     </div>
   );
 };
