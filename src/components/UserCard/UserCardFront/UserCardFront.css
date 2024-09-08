@@ -35,6 +35,15 @@
   align-items: center;
 }
 
+.card-title {
+  width: 75%;
+
+  /* Stop text from overflowing to new line */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .card-image-container {
   width: 95%;
   height: 12rem;
@@ -65,14 +74,17 @@
 
 .card-occupation {
   width: 14rem;
+  height: 1rem;
   padding: 0.01rem;
 
   background: radial-gradient(circle, rgb(244, 233, 158), rgb(200, 174, 7));
   font-size: small;
   font-weight: bold;
-
-  display: flex;
-  justify-content: center;
+  /* Stop text from overflowing to new line */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
 }
 
 .card-description-container {
@@ -82,6 +94,8 @@
 
   font-size: 0.7rem;
   border-bottom: 1px solid black;
+  overflow: hidden;
+  word-wrap: break-word;
 }
 
 .card-moves-container {
@@ -115,6 +129,10 @@
   width: 75%;
   font-weight: bold;
   font-size: smaller;
+  /* Stop text from overflowing to new line */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .card-skills-container {
