@@ -1,6 +1,8 @@
 import { useState } from "react";
 import UserCardFront from "../../components/UserCard/UserCardFront/UserCardFront";
+import BlankCard from "../../components/UserCard/BlankCard/BlankCard";
 import { GithubRepo, Mapper, User } from "../../types/global";
+import "./HomePage.css";
 
 function sortGithubRepos(githubRepos: GithubRepo[]): GithubRepo[] {
   return githubRepos.sort((a: GithubRepo, b: GithubRepo) => {
@@ -45,7 +47,7 @@ function getTopSkills(githubRepos: GithubRepo[], amount: number = 3) {
 
 async function getGithubUserData(username: string): Promise<User | undefined> {
   try {
-    // Fetch from github api, 60 per hour for unauthenticated 😢. (Authenticated is 1600)
+    // Fetch from github api, 60 per hour for unauthenticated 😢. (Authenticated is 5,000)
     // I want to use my github token but vite stores it in the source code during the build step 😭
     // Like bruh whats the point of making them env variables if vite is gonna expose them???
     const userResponse = await fetch(
@@ -99,7 +101,8 @@ const HomePage = () => {
   const [username, setUsername] = useState<string>("");
   const [user, setUser] = useState<User | null>(null);
 
-  async function buttonOnClick() {
+  async function buttonOnClick(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
     const userData = await getGithubUserData(username);
     if (userData === undefined) {
       alert("Enter a valid github username!");
@@ -109,20 +112,26 @@ const HomePage = () => {
   }
 
   return (
-    <div>
-      <h1>Gitmon Card Generator</h1>
-      <div>
+    <div id="home-page-container">
+      <h1 id="title">Gitmon Card Generator</h1>
+      <form onSubmit={buttonOnClick} id="generate-form">
         <label>Enter your github username here:</label>
-        <input
-          type="text"
-          value={username}
-          onChange={(event) => setUsername(event.target.value)}
-        />
-        <button onClick={buttonOnClick}>Generate</button>
-      </div>
+        <div id="form-input">
+          <input
+            type="text"
+            value={username}
+            onChange={(event) => setUsername(event.target.value)}
+          />
+          <input type="submit" value="Generate" id="generate-button" />
+        </div>
+      </form>
 
       <div>
-        {user ? <UserCardFront user={user} onClick={() => {}} /> : null}
+        {user ? (
+          <UserCardFront user={user} onClick={() => {}} />
+        ) : (
+          <BlankCard />
+        )}
       </div>
     </div>
   );

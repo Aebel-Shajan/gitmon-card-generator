@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap");
+
 .card-container {
   width: 20rem;
   height: 28rem;
@@ -13,7 +15,8 @@
   background-size: 20rem;
   border: solid rgb(228, 199, 9) 1rem;
   border-radius: 1rem;
-  font-family: Arial, Helvetica, sans-serif;
+  color: black;
+  font-family: "Lato", sans-serif;
 
   display: flex;
   flex-direction: column;

@@ -1,0 +1,45 @@
+#home-page-container {
+  width: 100%;
+  height: 100vh;
+
+  background-color: var(--color-bg-primary);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3rem;
+}
+
+#title {
+  width: 100%;
+  padding: 3rem 0;
+  font-size: 3rem;
+
+  text-align: center;
+  background-color: var(--color-bg-secondary);
+  letter-spacing: 0.3rem;
+}
+
+#generate-form {
+  padding: 1.5rem;
+
+  border-radius: 1rem;
+  background-color: var(--color-bg-secondary);
+}
+
+#form-input {
+  padding-top: 1rem;
+  display: flex;
+  gap: 0.5rem;
+}
+
+#form-input > input {
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+}
+
+#generate-button {
+  color: var(--color-text);
+  background-color: var(--color-accent);
+  border: none;
+}
