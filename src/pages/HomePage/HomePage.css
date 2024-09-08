@@ -1,6 +1,7 @@
 #home-page-container {
   width: 100%;
-  height: max(100vh, fit-content);
+  min-height: 100vh;
+  height: fit-content;
   padding-bottom: 2rem;
 
   background-color: var(--color-bg-primary);
