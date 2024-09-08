@@ -3,6 +3,7 @@ import UserCardFront from "../../components/UserCard/UserCardFront/UserCardFront
 import BlankCard from "../../components/UserCard/BlankCard/BlankCard";
 import { GithubRepo, Mapper, User } from "../../types/global";
 import "./HomePage.css";
+import LoadingOverlay from "../../components/LoadingOverlay/LoadingOverlay";
 
 function sortGithubRepos(githubRepos: GithubRepo[]): GithubRepo[] {
   return githubRepos.sort((a: GithubRepo, b: GithubRepo) => {
@@ -100,14 +101,20 @@ async function getGithubUserData(username: string): Promise<User | undefined> {
 const HomePage = () => {
   const [username, setUsername] = useState<string>("");
   const [user, setUser] = useState<User | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   async function buttonOnClick(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    setIsLoading(true);
     const userData = await getGithubUserData(username);
     if (userData === undefined) {
       alert("Enter a valid github username!");
+      setUsername("");
+      setUser(null);
+      setIsLoading(false);
       return;
     }
+    setIsLoading(false);
     setUser(userData);
   }
 
@@ -118,6 +125,7 @@ const HomePage = () => {
         <label>Enter your github username here:</label>
         <div id="form-input">
           <input
+            name="github-username"
             type="text"
             value={username}
             onChange={(event) => setUsername(event.target.value)}
@@ -126,13 +134,13 @@ const HomePage = () => {
         </div>
       </form>
 
-      <div>
+      <LoadingOverlay isLoading={isLoading}>
         {user ? (
           <UserCardFront user={user} onClick={() => {}} />
         ) : (
           <BlankCard />
         )}
-      </div>
+      </LoadingOverlay>
     </div>
   );
 };
