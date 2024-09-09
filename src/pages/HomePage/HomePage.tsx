@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import UserCardFront from "../../components/UserCard/UserCardFront/UserCardFront";
 import BlankCard from "../../components/UserCard/BlankCard/BlankCard";
 import { GithubRepo, Mapper, User } from "../../types/global";
 import "./HomePage.css";
 import LoadingOverlay from "../../components/LoadingOverlay/LoadingOverlay";
 import { calculateGitmonType } from "../../utils/helpers";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function sortGithubRepos(githubRepos: GithubRepo[]): GithubRepo[] {
   return githubRepos.sort((a: GithubRepo, b: GithubRepo) => {
@@ -114,20 +115,42 @@ const HomePage = () => {
   const [username, setUsername] = useState<string>("");
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const navigate = useNavigate();
+  const usernameParam = new URLSearchParams(useLocation().search).get("query");
+
+  useEffect(() => {
+    if (usernameParam) {
+      const loadUser = async () => {
+        setIsLoading(true);
+        try {
+          const userData = await getGithubUserData(usernameParam);
+          if (!userData) {
+            alert("Enter a valid github username!");
+            setIsLoading(false);
+            navigate("/");
+            return;
+          }
+          setUser(userData);
+        } catch (error) {
+          console.error(error);
+          alert(`An error occurred while fetching user data. ${error}`);
+        } finally {
+          setIsLoading(false);
+        }
+      };
+      loadUser();
+    } else {
+      setUser(null);
+      setUsername("");
+    }
+  }, [usernameParam, navigate]);
 
   async function buttonOnClick(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setIsLoading(true);
-    const userData = await getGithubUserData(username);
-    if (userData === undefined) {
-      alert("Enter a valid github username!");
-      setUsername("");
-      setUser(null);
-      setIsLoading(false);
+    if (username === "") {
       return;
     }
-    setIsLoading(false);
-    setUser(userData);
+    navigate(`/?query=${encodeURIComponent(username)}`);
   }
 
   return (
