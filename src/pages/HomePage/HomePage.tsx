@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import UserCardFront from "../../components/UserCard/UserCardFront/UserCardFront";
 import BlankCard from "../../components/UserCard/BlankCard/BlankCard";
-import { GithubRepo, Mapper, User } from "../../types/global";
+import { User } from "../../types/global";
 import "./HomePage.css";
 import LoadingOverlay from "../../components/LoadingOverlay/LoadingOverlay";
-import { calculateGitmonType } from "../../utils/helpers";
+import { getGithubUserData } from "../../utils/helpers";
 import { useLocation, useNavigate } from "react-router-dom";
 
 function sortGithubRepos(githubRepos: GithubRepo[]): GithubRepo[] {
