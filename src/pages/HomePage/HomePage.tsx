@@ -71,7 +71,7 @@ const HomePage = () => {
       }
     };
     a();
-  }, [userCardRendered]);
+  }, [userCardRendered, username]);
 
   async function buttonOnClick(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -86,9 +86,9 @@ const HomePage = () => {
       <h1 id="title">Gitmon Card Generator</h1>
       {socialImage ? (
         <MetaTag
-          title="title"
+          title={username}
           imageUrl={socialImage}
-          description="description"
+          description="Card generated with gitmon card generator."
         />
       ) : (
         <></>
