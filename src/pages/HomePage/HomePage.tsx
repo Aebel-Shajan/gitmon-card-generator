@@ -8,6 +8,7 @@ import { getGithubUserData } from "../../utils/helpers";
 import { useLocation, useNavigate } from "react-router-dom";
 import MetaTag from "../../components/MetaTag/MetaTag";
 import { toPng } from "html-to-image";
+import { HelmetProvider } from "react-helmet-async";
 
 const HomePage = () => {
   const [username, setUsername] = useState<string>("");
@@ -82,39 +83,41 @@ const HomePage = () => {
   }
 
   return (
-    <div id="home-page-container">
-      <h1 id="title">Gitmon Card Generator</h1>
-      {socialImage ? (
-        <MetaTag
-          title={username}
-          imageUrl={socialImage}
-          description="Card generated with gitmon card generator."
-        />
-      ) : (
-        <></>
-      )}
-
-      <form onSubmit={buttonOnClick} id="generate-form">
-        <label>Enter your github username here:</label>
-        <div id="form-input">
-          <input
-            name="github-username"
-            type="text"
-            value={username}
-            onChange={(event) => setUsername(event.target.value)}
+    <HelmetProvider>
+      <div id="home-page-container">
+        <h1 id="title">Gitmon Card Generator</h1>
+        {socialImage ? (
+          <MetaTag
+            title={username}
+            imageUrl={socialImage}
+            description="Card generated with gitmon card generator."
           />
-          <input type="submit" value="Generate" id="generate-button" />
-        </div>
-      </form>
-
-      <LoadingOverlay isLoading={isLoading}>
-        {user ? (
-          <UserCardFront user={user} onClick={() => {}} ref={userCardRef} />
         ) : (
-          <BlankCard />
+          <></>
         )}
-      </LoadingOverlay>
-    </div>
+
+        <form onSubmit={buttonOnClick} id="generate-form">
+          <label>Enter your github username here:</label>
+          <div id="form-input">
+            <input
+              name="github-username"
+              type="text"
+              value={username}
+              onChange={(event) => setUsername(event.target.value)}
+            />
+            <input type="submit" value="Generate" id="generate-button" />
+          </div>
+        </form>
+
+        <LoadingOverlay isLoading={isLoading}>
+          {user ? (
+            <UserCardFront user={user} onClick={() => {}} ref={userCardRef} />
+          ) : (
+            <BlankCard />
+          )}
+        </LoadingOverlay>
+      </div>
+    </HelmetProvider>
   );
 };
 
