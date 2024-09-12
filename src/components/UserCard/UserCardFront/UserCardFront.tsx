@@ -3,6 +3,7 @@ import TypeIcon from "../../TypeIcon/TypeIcon";
 import { getGitmonType } from "../../../utils/helpers.tsx";
 import { Move, User } from "../../../types/global";
 import SkillBadge from "../../SkillBadge/SkilllBadge.tsx";
+import { forwardRef } from "react";
 
 interface TypesComponentProps {
   types: string[];
@@ -38,43 +39,45 @@ interface UserCardFrontProps {
   onClick: () => void;
 }
 
-const UserCardFront = ({ user, onClick }: UserCardFrontProps) => {
-  const cardType = getGitmonType(user.type);
-  const colorOverride = {
-    "--type-color-transparent": cardType["color"] + "88",
-  } as React.CSSProperties;
-  return (
-    <div className="card-container" style={colorOverride}>
-      <div className="card-header-container">
-        <div className="card-title">
-          <div className="card-name">
-            {user.name ? user.name : user.username}
+const UserCardFront = forwardRef<HTMLDivElement, UserCardFrontProps>(
+  ({ user, onClick }, ref) => {
+    const cardType = getGitmonType(user.type);
+    const colorOverride = {
+      "--type-color-transparent": cardType["color"] + "88",
+    } as React.CSSProperties;
+    return (
+      <div className="card-container" style={colorOverride} ref={ref}>
+        <div className="card-header-container">
+          <div className="card-title">
+            <div className="card-name">
+              {user.name ? user.name : user.username}
+            </div>
+            <div className="card-id">{"# " + user.id}</div>
           </div>
-          <div className="card-id">{"# " + user.id}</div>
+          <TypeIcon type={cardType} />
         </div>
-        <TypeIcon type={cardType} />
+        <div className="card-image-container" onClick={onClick}>
+          <img className="card-image" src={user.image} />
+        </div>
+        <div className="card-occupation-container">
+          <div className="card-occupation">{user.occupation}</div>
+        </div>
+        <div className="card-description-container">
+          {user.description.substring(0, 1000)}
+        </div>
+        <div className="card-moves-container">
+          {user.moves.map((move, index) => {
+            return <MoveComponent key={`index${index}`} move={move} />;
+          })}
+        </div>
+        <div className="card-skills-container">
+          {user.skills.map((skill, index) => {
+            return <SkillBadge skill={skill} key={index} />;
+          })}
+        </div>
       </div>
-      <div className="card-image-container" onClick={onClick}>
-        <img className="card-image" src={user.image} />
-      </div>
-      <div className="card-occupation-container">
-        <div className="card-occupation">{user.occupation}</div>
-      </div>
-      <div className="card-description-container">
-        {user.description.substring(0, 1000)}
-      </div>
-      <div className="card-moves-container">
-        {user.moves.map((move, index) => {
-          return <MoveComponent key={`index${index}`} move={move} />;
-        })}
-      </div>
-      <div className="card-skills-container">
-        {user.skills.map((skill, index) => {
-          return <SkillBadge skill={skill} key={index} />;
-        })}
-      </div>
-    </div>
-  );
-};
+    );
+  },
+);
 
 export default UserCardFront;

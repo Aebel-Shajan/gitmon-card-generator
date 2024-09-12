@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import UserCardFront from "../../components/UserCard/UserCardFront/UserCardFront";
 import BlankCard from "../../components/UserCard/BlankCard/BlankCard";
 import { User } from "../../types/global";
@@ -6,116 +6,17 @@ import "./HomePage.css";
 import LoadingOverlay from "../../components/LoadingOverlay/LoadingOverlay";
 import { getGithubUserData } from "../../utils/helpers";
 import { useLocation, useNavigate } from "react-router-dom";
-
-function sortGithubRepos(githubRepos: GithubRepo[]): GithubRepo[] {
-  return githubRepos.sort((a: GithubRepo, b: GithubRepo) => {
-    const starDiff = b.stargazers_count - a.stargazers_count;
-    const sizeDiff = b.size - a.size;
-    // Sort by stars first
-    if (starDiff != 0) {
-      return starDiff;
-    }
-    // Then by size
-    return sizeDiff;
-  });
-}
-
-function getTopSkills(githubRepos: GithubRepo[], amount: number = 3) {
-  // Count
-  const skillMap: Mapper<number> = {};
-  githubRepos.forEach((repo: GithubRepo) => {
-    const skillsToAdd = [repo.language, ...repo.topics];
-    skillsToAdd.forEach((language: string) => {
-      if (!language) {
-        return;
-      }
-      language = language.toLowerCase();
-      if (!(language in skillMap)) {
-        skillMap[language] = 0;
-      }
-      skillMap[language] += 1;
-    });
-  });
-
-  // Get the top languages
-  const topLanguages = Object.entries(skillMap)
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, amount)
-    .map(([language]) => language);
-
-  // Obtain skills
-  const skills = topLanguages.length > 0 ? topLanguages : ["Unknown"];
-  return skills;
-}
-
-async function getGithubUserData(username: string): Promise<User | undefined> {
-  try {
-    // Fetch from github api, 60 per hour for unauthenticated 😢. (Authenticated is 5,000)
-    // I want to use my github token but vite stores it in the source code during the build step 😭
-    // Like bruh whats the point of making them env variables if vite is gonna expose them???
-    const userResponse = await fetch(
-      `https://api.github.com/users/${username}`,
-    );
-    const repoResponse = await fetch(
-      `https://api.github.com/users/${username}/repos?per_page=200`,
-    );
-
-    // Handle errors
-    if (!userResponse.ok) {
-      throw new Error(`Response status: ${userResponse.status}`);
-    }
-    if (!repoResponse.ok) {
-      throw new Error(`Response status: ${repoResponse.status}`);
-    }
-
-    // Convert to json
-    const userData = await userResponse.json();
-    let repoData = (await repoResponse.json()) as GithubRepo[];
-
-    // Obtain user type
-    const repoTags: string[] = [];
-    repoData.forEach((repo) => repoTags.push(repo.language, ...repo.topics));
-    const userType = calculateGitmonType(repoTags)[0].name;
-
-    // Obtain top moves
-    repoData = sortGithubRepos(repoData);
-    const topThreeRepos = repoData.slice(0, Math.min(3, repoData.length));
-    const repoMoves = topThreeRepos.map((repo: GithubRepo) => {
-      const repoTags = [repo.language, ...repo.topics];
-      const repoTypes = calculateGitmonType(repoTags)
-        .map((gitmonType) => gitmonType.name)
-        .slice(0, 2);
-      return {
-        types: repoTypes,
-        name: repo.name,
-      };
-    });
-
-    // Obtain skills
-    const topSkills = getTopSkills(repoData);
-
-    // Combine the data into a user object
-    return {
-      id: userData.id,
-      username: userData.login,
-      name: userData.name,
-      type: userType,
-      image: userData.avatar_url,
-      occupation: userData.company,
-      description: userData.bio ? userData.bio : "No bio :(",
-      skills: topSkills,
-      moves: repoMoves,
-    };
-  } catch (error) {
-    console.error(error);
-  }
-}
+import MetaTag from "../../components/MetaTag/MetaTag";
+import { toPng } from "html-to-image";
 
 const HomePage = () => {
   const [username, setUsername] = useState<string>("");
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const navigate = useNavigate();
+  const [socialImage, setSocialImage] = useState<string>("");
+  const userCardRef = useRef(null);
+  const [userCardRendered, setUserCardRendered] = useState<boolean>(false);
   const usernameParam = new URLSearchParams(useLocation().search).get("query");
 
   useEffect(() => {
@@ -145,6 +46,33 @@ const HomePage = () => {
     }
   }, [usernameParam, navigate]);
 
+  // I have no idea what I am doing, but this works
+  // Please help please help please help
+  useEffect(() => {
+    if (userCardRef.current) {
+      setUserCardRendered(true);
+    }
+  });
+
+  useEffect(() => {
+    const a = async () => {
+      if (userCardRendered && userCardRef.current) {
+        const canvasWidth = 1200;
+        const canvasHeight = 630;
+        const style = {
+          transform: `scale(0.45, 1)`, // Scale element to fit canvas
+        };
+        const imageUrl = await toPng(userCardRef.current, {
+          canvasHeight: canvasHeight,
+          canvasWidth: canvasWidth,
+          style: style,
+        });
+        setSocialImage(imageUrl);
+      }
+    };
+    a();
+  }, [userCardRendered]);
+
   async function buttonOnClick(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (username === "") {
@@ -156,6 +84,16 @@ const HomePage = () => {
   return (
     <div id="home-page-container">
       <h1 id="title">Gitmon Card Generator</h1>
+      {socialImage ? (
+        <MetaTag
+          title="title"
+          imageUrl={socialImage}
+          description="description"
+        />
+      ) : (
+        <></>
+      )}
+
       <form onSubmit={buttonOnClick} id="generate-form">
         <label>Enter your github username here:</label>
         <div id="form-input">
@@ -171,7 +109,7 @@ const HomePage = () => {
 
       <LoadingOverlay isLoading={isLoading}>
         {user ? (
-          <UserCardFront user={user} onClick={() => {}} />
+          <UserCardFront user={user} onClick={() => {}} ref={userCardRef} />
         ) : (
           <BlankCard />
         )}
