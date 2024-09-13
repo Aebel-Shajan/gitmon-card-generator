@@ -9,12 +9,12 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 3rem;
+  gap: 1.5rem;
 }
 
 #title {
   width: 100%;
-  padding: 2rem 0;
+  padding: 0.8rem 0;
   font-size: 2.5rem;
 
   text-align: center;
@@ -29,24 +29,50 @@
   background-color: var(--color-bg-secondary);
 }
 
-#form-input {
+#form-input-container {
   padding-top: 1rem;
   display: flex;
   gap: 0.5rem;
 }
 
-#form-input > input {
+#form-input {
   padding: 0.5rem;
   border-radius: 0.5rem;
 }
 
-#generate-button {
+.button {
+  padding: 0.5rem;
+
+  border-radius: 0.5rem;
   color: var(--color-text);
   background-color: var(--color-accent);
   border: none;
   cursor: pointer;
+  border: solid 2px transparent;
+  /* Remove a tag styling */
+  text-decoration: none;
+  font-weight: normal;
+  font-size: 0.8rem;
+
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
 }
-#generate-button:hover {
+
+.button:hover {
   background-color: var(--color-text);
   color: var(--color-accent);
+  border: solid 2px var(--color-accent);
+}
+
+.container {
+  padding: 1.5rem;
+
+  border-radius: 1rem;
+  background-color: var(--color-bg-secondary);
+}
+
+#option-container {
+  display: flex;
+  gap: 1rem;
 }
