@@ -13,6 +13,7 @@ export interface GithubUser {
   followers: number;
   following: number;
   created_at: string;
+  avatar_url: string;
 }
 
 export interface GithubRepo {

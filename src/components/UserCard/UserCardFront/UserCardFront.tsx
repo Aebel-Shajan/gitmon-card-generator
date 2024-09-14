@@ -55,6 +55,7 @@ const UserCardFront = forwardRef<HTMLDivElement, UserCardFrontProps>(
             </div>
             <div className="card-id">{"# " + user.id}</div>
           </div>
+          <div>{user.userScore}</div>
           <TypeIcon type={cardType} />
         </div>
         <div className="card-image-container" onClick={onClick}>

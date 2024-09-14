@@ -260,8 +260,8 @@ export async function getGithubUserData(
     }
 
     // Convert to json
-    const userData = await userResponse.json();
-    let repoData = (await repoResponse.json()) as GithubRepo[];
+    const userData: GithubUser = await userResponse.json();
+    let repoData: GithubRepo[] = await repoResponse.json();
 
     // Obtain user type
     const repoTags: string[] = [];
@@ -298,14 +298,14 @@ export async function getGithubUserData(
     return {
       id: userData.id,
       username: userData.login,
-      name: userData.name,
+      name: userData.name ? userData.name : "",
       type: userType,
       image: userData.avatar_url,
-      occupation: userData.company,
+      occupation: userData.company ? userData.company : userType,
       description: userData.bio ? userData.bio : "No bio :(",
       skills: topSkills,
       moves: repoMoves,
-      userScore: 0,
+      userScore: calculateGithubUserScore(userData, repoData),
     };
   } catch (error) {
     console.error(error);

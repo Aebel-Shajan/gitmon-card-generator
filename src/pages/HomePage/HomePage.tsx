@@ -97,6 +97,8 @@ const HomePage = () => {
       "torvalds",
       "wycats",
       "vanpelt ",
+      "god",
+      "dog",
     ];
     const randomUser =
       randomUsers[Math.floor(Math.random() * randomUsers.length)];
