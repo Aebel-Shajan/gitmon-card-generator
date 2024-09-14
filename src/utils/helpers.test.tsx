@@ -1,12 +1,76 @@
-import { GithubRepo } from "../types/global";
+import { GithubRepo, GithubUser } from "../types/global";
 import {
   scoreFunction,
   preprocessString,
   calculateGitmonType,
   calculateGithubRepoScore,
   getDaysSince,
+  calculateGithubUserScore,
 } from "./helpers";
 import { describe, it, expect } from "vitest";
+
+describe("calculateGithubUserScore", () => {
+  const exampleUser: GithubUser = {
+    login: "",
+    id: 0,
+    name: null,
+    company: null,
+    blog: "",
+    location: null,
+    email: null,
+    hireable: null,
+    bio: "",
+    twitter_username: null,
+    public_repos: 0,
+    followers: 0,
+    following: 0,
+    created_at: new Date().toString(),
+  };
+  const exampleRepo: GithubRepo = {
+    name: "",
+    description: "",
+    url: "",
+    homepage: null,
+    size: 0,
+    default_branch: "master",
+    language: null,
+    license: null,
+    created_at: new Date().toString(),
+    topics: [],
+    stargazers_count: 0,
+    watchers_count: 0,
+    forks_count: 0,
+    open_issues_count: 0,
+  };
+  it("should return 0 for the example user", () => {
+    expect(calculateGithubUserScore(exampleUser, [])).toEqual(0);
+  });
+  it("should return above 29 for a stylish user", () => {
+    const stylishUser = { ...exampleUser };
+    const repos: GithubRepo[] = [];
+    stylishUser.name = "timothy";
+    stylishUser.bio = "softwhere";
+    stylishUser.company = "Lidl";
+    stylishUser.twitter_username = "@tim";
+    stylishUser.email = "tim@timail.com";
+    stylishUser.blog = "tim.i";
+    const score = calculateGithubUserScore(stylishUser, repos);
+    expect(score).toBeGreaterThanOrEqual(29);
+  });
+  it("should return above 60 for a metric user", () => {
+    const metricUser = { ...exampleUser };
+    const repos: GithubRepo[] = [{ ...exampleRepo, stargazers_count: 1000 }];
+    metricUser.followers = 10000;
+    metricUser.following = 100;
+    metricUser.public_repos = 30;
+    metricUser.created_at = new Date(
+      new Date().setFullYear(new Date().getFullYear() - 1),
+    ).toString();
+    const score = calculateGithubUserScore(metricUser, repos);
+    console.log(score);
+    expect(score).toBeGreaterThanOrEqual(60);
+  });
+});
 
 describe("calculateGithubRepoScore", () => {
   const exampleRepo: GithubRepo = {
@@ -67,7 +131,6 @@ describe("scoreFunction", () => {
     }
     const end = Date.now();
     const executionTime = end - start;
-    console.log(executionTime);
     expect(executionTime).toBeLessThan(10);
   });
   it("should return 0 for input_value=0", () => {

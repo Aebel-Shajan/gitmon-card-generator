@@ -1,6 +1,85 @@
 import IconMapping from "./IconMapping";
 import TypeMapping from "./TypeMapping";
-import { GithubRepo, GitmonType, Mapper, Move, User } from "../types/global";
+import {
+  GithubRepo,
+  GithubUser,
+  GitmonType,
+  Mapper,
+  Move,
+  User,
+} from "../types/global";
+
+/**
+ * Returns a weighted score out of 100 for a given github user and their repos.
+ *
+ * The score is weighted by:
+ * * Style (30%):
+ *   * hasName (30%)
+ *   * hasBio (30%)
+ *   * hasCompany (20%)
+ *   * hasLocation, hasTwitter, hasEmail, hasBlog (5% each = 20% total)
+ *   * TODO: hasReadMe
+ * * Metrics (70%):
+ *   * stars_count [1000] (50%)
+ *   * followers_count [10,000] (20%)
+ *   * following_count [100] (10%)
+ *   * repos_count [30] (10%)
+ *   * days_count [365] (10%)
+ *
+ * Numbers in square brackets refer to the cutoff point for score calculation.
+ *
+ * @param user - Github user whose score is to be calculated
+ * @param repos - Github users corresponding repos
+ * @returns Integer total score for github user = 0.3*style_score + 0.7*metric_score
+ */
+export function calculateGithubUserScore(
+  user: GithubUser,
+  repos: GithubRepo[],
+) {
+  function booleanScore(value: boolean | string | null): number {
+    return 100 * Number(value !== null && value !== "");
+  }
+  const stars_count = repos.reduce(
+    (sum, repo) => sum + repo.stargazers_count,
+    0,
+  );
+  const rating = {
+    style: {
+      hasName: [booleanScore(user.name), 0.3],
+      hasBio: [booleanScore(user.bio), 0.3],
+      hasCompany: [booleanScore(user.company), 0.2],
+      hasLocation: [booleanScore(user.location), 0.05],
+      hasTwitter: [booleanScore(user.twitter_username), 0.05],
+      hasEmail: [booleanScore(user.email), 0.05],
+      hasBlog: [booleanScore(user.blog), 0.05],
+    } as { [key: string]: [number, number] },
+    metrics: {
+      stars_count: [scoreFunction(stars_count, 1000), 0.5],
+      followers_count: [scoreFunction(user.followers, 1000), 0.2],
+      following_count: [scoreFunction(user.following, 100), 0.1],
+      repos_count: [scoreFunction(user.public_repos, 30), 0.1],
+      days_count: [scoreFunction(getDaysSince(user.created_at), 365), 0.1],
+    } as { [key: string]: [number, number] },
+  };
+
+  let style_score = 0;
+  let metrics_score = 0;
+  for (const criteria in rating.style) {
+    const score = rating.style[criteria][0] * rating.style[criteria][1];
+    // console.log(score, criteria);
+    style_score += score;
+  }
+  // console.log(`Total style_score: ${style_score}`)
+  for (const criteria in rating.metrics) {
+    const score = rating.metrics[criteria][0] * rating.metrics[criteria][1];
+    console.log(score, criteria);
+    metrics_score += score;
+  }
+  // console.log(`Total metrics_score: ${metrics_score}`)
+  const total_score = Math.round(0.7 * metrics_score + 0.3 * style_score);
+  // console.log(`Total score: ${total_score}`)
+  return total_score;
+}
 
 /**
  * Returns a weighted score out of 100 for a given github repo.
@@ -52,21 +131,18 @@ export function calculateGithubRepoScore(repo: GithubRepo) {
   let metrics_score = 0;
   for (const criteria in rating.style) {
     const score = rating.style[criteria][0] * rating.style[criteria][1];
-    console.log(score, criteria);
+    // console.log(score, criteria);
     style_score += score;
   }
   // console.log(`Total style_score: ${style_score}`)
-
   for (const criteria in rating.metrics) {
     const score = rating.metrics[criteria][0] * rating.metrics[criteria][1];
-    console.log(score, criteria);
+    // console.log(score, criteria);
     metrics_score += score;
   }
   // console.log(`Total metrics_score: ${metrics_score}`)
-
   const total_score = Math.round(0.7 * metrics_score + 0.3 * style_score);
   // console.log(`Total score: ${total_score}`)
-
   return total_score;
 }
 
