@@ -25,6 +25,7 @@ describe("calculateGithubUserScore", () => {
     followers: 0,
     following: 0,
     created_at: new Date().toString(),
+    avatar_url: "",
   };
   const exampleRepo: GithubRepo = {
     name: "",
