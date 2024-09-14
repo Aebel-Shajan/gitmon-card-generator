@@ -7,7 +7,7 @@ import LoadingOverlay from "../../components/LoadingOverlay/LoadingOverlay";
 import { getGithubUserData } from "../../utils/helpers";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toBlob } from "html-to-image";
-import { FaDiceFive, FaGithub, FaShare } from "react-icons/fa";
+import { FaDiceFive, FaShare, FaStar } from "react-icons/fa";
 import { PiSparkleBold } from "react-icons/pi";
 
 const HomePage = () => {
@@ -138,8 +138,8 @@ const HomePage = () => {
           className="button"
           target="_blank"
         >
-          <FaGithub />
-          Github
+          <FaStar />
+          Star Repo 🤩
         </a>
       </div>
 
