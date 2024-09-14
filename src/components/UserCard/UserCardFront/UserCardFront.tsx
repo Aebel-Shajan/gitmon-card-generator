@@ -30,6 +30,7 @@ const MoveComponent = ({ move }: MoveComponentProps) => {
     <div className="move-container">
       <TypesComponent types={move["types"]} />
       <div className="move-name">{move["name"]}</div>
+      <div className="move-score">{move["moveScore"]}</div>
     </div>
   );
 };

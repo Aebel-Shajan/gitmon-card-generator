@@ -1,6 +1,6 @@
 import IconMapping from "./IconMapping";
 import TypeMapping from "./TypeMapping";
-import { GithubRepo, GitmonType, Mapper, User } from "../types/global";
+import { GithubRepo, GitmonType, Mapper, Move, User } from "../types/global";
 
 /**
  * Returns a weighted score out of 100 for a given github repo.
@@ -200,7 +200,7 @@ export async function getGithubUserData(
     // Obtain top moves
     repoData = sortGithubRepos(repoData);
     const topThreeRepos = repoData.slice(0, Math.min(3, repoData.length));
-    const repoMoves = topThreeRepos.map((repo: GithubRepo) => {
+    const repoMoves = topThreeRepos.map((repo: GithubRepo): Move => {
       const repoTags = [...repo.topics];
       if (repo.language) {
         repoTags.push(repo.language);
@@ -211,6 +211,7 @@ export async function getGithubUserData(
       return {
         types: repoTypes,
         name: repo.name,
+        moveScore: calculateGithubRepoScore(repo),
       };
     });
 
