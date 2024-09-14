@@ -1,15 +1,41 @@
+export interface GithubUser {
+  login: string;
+  id: number;
+  name: string | null;
+  company: string | null;
+  blog: string;
+  location: string | null;
+  email: string | null;
+  hireable: boolean | null;
+  bio: string;
+  twitter_username: string | null;
+  public_repos: number;
+  followers: number;
+  following: number;
+  created_at: string;
+  avatar_url: string;
+}
+
 export interface GithubRepo {
   name: string;
+  description: string | null;
   url: string;
+  homepage: string | null;
   size: number;
+  default_branch: string;
+  language: string | null;
+  license: string | null;
+  created_at: string;
+  topics: string[];
   stargazers_count: number;
   watchers_count: number;
-  language: string;
-  topics: string[];
+  forks_count: number;
+  open_issues_count: number;
 }
 export interface Move {
   types: string[];
   name: string;
+  moveScore: number;
 }
 
 export interface User {
@@ -22,6 +48,7 @@ export interface User {
   description: string;
   skills: string[];
   moves: move[];
+  userScore: number;
 }
 
 export interface GitmonType {

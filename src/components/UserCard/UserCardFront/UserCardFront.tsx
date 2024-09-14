@@ -30,6 +30,7 @@ const MoveComponent = ({ move }: MoveComponentProps) => {
     <div className="move-container">
       <TypesComponent types={move["types"]} />
       <div className="move-name">{move["name"]}</div>
+      <div className="move-score">{move["moveScore"]}</div>
     </div>
   );
 };
@@ -54,6 +55,7 @@ const UserCardFront = forwardRef<HTMLDivElement, UserCardFrontProps>(
             </div>
             <div className="card-id">{"# " + user.id}</div>
           </div>
+          <div>{user.userScore}</div>
           <TypeIcon type={cardType} />
         </div>
         <div className="card-image-container" onClick={onClick}>
