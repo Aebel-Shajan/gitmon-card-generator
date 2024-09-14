@@ -3,6 +3,88 @@ import TypeMapping from "./TypeMapping";
 import { GithubRepo, GitmonType, Mapper, User } from "../types/global";
 
 /**
+ * Returns a weighted score out of 100 for a given github repo.
+ *
+ * This function scores a github repo based upon multiple parameters.
+ * The criteria for the score is:
+ * * Style (30%):
+ *   * description (40%)
+ *   * topics (30%)
+ *   * no master (10%)
+ *   * js not main language, homepage, language, license (5% each = 20% total)
+ * * Metrics (70%):
+ *    * Stars (50%)
+ *    * Forks, watchers, age, size, open_issues (10% each = 50% total)
+ * @param repo Input github repo
+ * @returns Integer total score for github repo
+ */
+export function calculateGithubRepoScore(repo: GithubRepo) {
+  const rating = {
+    style: {
+      // criteria : [criteria_score, weight]
+      hasDescription: [
+        100 * Number(repo.description ? repo.description.length > 5 : 0),
+        0.4,
+      ],
+      topics_count: [scoreFunction(repo.topics.length, 3), 0.3],
+      hasNoMaster: [100 * Number(repo.default_branch !== "master"), 0.1],
+      noJs: [
+        repo.language
+          ? 100 * Number(repo.language.toLowerCase() !== "javascript")
+          : 0,
+        0.05,
+      ],
+      hasLanguage: [100 * Number(repo.language !== null), 0.05],
+      hasHomepage: [100 * Number(repo.homepage !== null), 0.05],
+      hasLicense: [100 * Number(repo.license !== null), 0.05],
+    } as { [key: string]: [number, number] },
+    metrics: {
+      stargazers_count: [scoreFunction(repo.stargazers_count, 70), 0.5],
+      forks_count: [scoreFunction(repo.forks_count, 70), 0.1],
+      watchers_count: [scoreFunction(repo.watchers_count, 70), 0.1],
+      days_count: [scoreFunction(getDaysSince(repo.created_at), 365), 0.1],
+      open_issues_count: [scoreFunction(repo.open_issues_count, 5), 0.1],
+      size_count: [scoreFunction(repo.size, 1000), 0.1],
+    } as { [key: string]: [number, number] },
+  };
+
+  let style_score = 0;
+  let metrics_score = 0;
+  for (const criteria in rating.style) {
+    const score = rating.style[criteria][0] * rating.style[criteria][1];
+    console.log(score, criteria);
+    style_score += score;
+  }
+  // console.log(`Total style_score: ${style_score}`)
+
+  for (const criteria in rating.metrics) {
+    const score = rating.metrics[criteria][0] * rating.metrics[criteria][1];
+    console.log(score, criteria);
+    metrics_score += score;
+  }
+  // console.log(`Total metrics_score: ${metrics_score}`)
+
+  const total_score = Math.round(0.7 * metrics_score + 0.3 * style_score);
+  // console.log(`Total score: ${total_score}`)
+
+  return total_score;
+}
+
+/**
+ * Returns number of days since a given date.
+ *
+ * @param date - Input date string, should have format YYYY-MM-DDThh:mm:ss
+ * @return Number of days since given date in days.
+ */
+export function getDaysSince(date: string) {
+  const now = new Date();
+  const then = new Date(date);
+  const millisecondsDiff = now.getTime() - then.getTime();
+  const output = Math.round(millisecondsDiff / (24 * 60 * 60 * 60));
+  return output;
+}
+
+/**
  * Returns a score out of a 100 for a given input_value and cutoff_point.
  *
  * Uses a mathematical function which starts at (0, 0) and converges at y=100.
@@ -25,7 +107,7 @@ export function scoreFunction(input_value: number, cutoff_point: number) {
       `cutoff_point=${cutoff_point} should be greater than 0`,
     );
   }
-
+  if (input_value === 0) return 0;
   const k = 2.30258509299 / cutoff_point;
   return Math.round(100 * (1 - Math.exp(-1 * k * input_value)));
 }
@@ -56,7 +138,7 @@ function getTopSkills(githubRepos: GithubRepo[], amount: number = 3) {
   const skillMap: Mapper<number> = {};
   githubRepos.forEach((repo: GithubRepo) => {
     const skillsToAdd = [repo.language, ...repo.topics];
-    skillsToAdd.forEach((language: string) => {
+    skillsToAdd.forEach((language: string | null) => {
       if (!language) {
         return;
       }
@@ -107,14 +189,22 @@ export async function getGithubUserData(
 
     // Obtain user type
     const repoTags: string[] = [];
-    repoData.forEach((repo) => repoTags.push(repo.language, ...repo.topics));
+    repoData.forEach((repo) => {
+      if (repo.language) {
+        repoTags.push(repo.language);
+      }
+      repoTags.push(...repo.topics);
+    });
     const userType = calculateGitmonType(repoTags)[0].name;
 
     // Obtain top moves
     repoData = sortGithubRepos(repoData);
     const topThreeRepos = repoData.slice(0, Math.min(3, repoData.length));
     const repoMoves = topThreeRepos.map((repo: GithubRepo) => {
-      const repoTags = [repo.language, ...repo.topics];
+      const repoTags = [...repo.topics];
+      if (repo.language) {
+        repoTags.push(repo.language);
+      }
       const repoTypes = calculateGitmonType(repoTags)
         .map((gitmonType) => gitmonType.name)
         .slice(0, 2);

@@ -1,11 +1,75 @@
+import { GithubRepo } from "../types/global";
 import {
   scoreFunction,
   preprocessString,
   calculateGitmonType,
+  calculateGithubRepoScore,
+  getDaysSince,
 } from "./helpers";
 import { describe, it, expect } from "vitest";
 
+describe("calculateGithubRepoScore", () => {
+  const exampleRepo: GithubRepo = {
+    name: "",
+    description: "",
+    url: "",
+    homepage: null,
+    size: 0,
+    default_branch: "master",
+    language: null,
+    license: null,
+    created_at: new Date().toString(),
+    topics: [],
+    stargazers_count: 0,
+    watchers_count: 0,
+    forks_count: 0,
+    open_issues_count: 0,
+  };
+  it("should return 0 for the example repo", () => {
+    expect(calculateGithubRepoScore(exampleRepo)).toEqual(0);
+  });
+  it("should return above 28 for a stylish repo", () => {
+    const stylishRepo = { ...exampleRepo };
+    stylishRepo.description = "Description over 5 chars.";
+    stylishRepo.topics = ["react", "vercel", "next"];
+    stylishRepo.default_branch = "main";
+    stylishRepo.language = "NotJavascript";
+    stylishRepo.homepage = "https://github.com";
+    stylishRepo.license = "MIT";
+    expect(calculateGithubRepoScore(stylishRepo)).toBeGreaterThanOrEqual(28);
+  });
+  it("should return above 60 for a very metric repo", () => {
+    const metricRepo = { ...exampleRepo };
+    metricRepo.stargazers_count = 70;
+    metricRepo.forks_count = 70;
+    metricRepo.watchers_count = 70;
+    metricRepo.created_at = new Date(
+      new Date().setFullYear(new Date().getFullYear() - 1),
+    ).toString();
+    metricRepo.size = 1000;
+    metricRepo.open_issues_count = 5;
+    expect(calculateGithubRepoScore(metricRepo)).toBeGreaterThanOrEqual(60);
+  });
+});
+
+describe("getDaysSince", () => {
+  it("should return 0 for current date", () => {
+    const now = new Date();
+    expect(getDaysSince(now.toString())).toEqual(0);
+  });
+});
+
 describe("scoreFunction", () => {
+  it("should not take a long time to run", () => {
+    const start = Date.now();
+    for (let i = 0; i < 1000; i++) {
+      scoreFunction(0, 123);
+    }
+    const end = Date.now();
+    const executionTime = end - start;
+    console.log(executionTime);
+    expect(executionTime).toBeLessThan(10);
+  });
   it("should return 0 for input_value=0", () => {
     expect(scoreFunction(0, 123)).toEqual(0);
   });
