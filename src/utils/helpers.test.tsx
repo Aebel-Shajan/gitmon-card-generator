@@ -1,5 +1,30 @@
-import { preprocessString, calculateGitmonType } from "./helpers";
+import {
+  scoreFunction,
+  preprocessString,
+  calculateGitmonType,
+} from "./helpers";
 import { describe, it, expect } from "vitest";
+
+describe("scoreFunction", () => {
+  it("should return 0 for input_value=0", () => {
+    expect(scoreFunction(0, 123)).toEqual(0);
+  });
+  it("should return 90 at cutoff_point=input_value", () => {
+    expect(scoreFunction(123, 123)).toEqual(90);
+  });
+  it("should throw a RangeError when cutoff_point < 0", () => {
+    expect(() => scoreFunction(123, 0)).toThrow(RangeError);
+  });
+  it("should return below 90 if input_value<cutoff_point", () => {
+    expect(scoreFunction(100, 123)).toBeLessThan(90);
+  });
+  it("should return above 90 if input_value >= cutoff_point", () => {
+    expect(scoreFunction(1000, 123)).toBeGreaterThan(90);
+  });
+  it("should return 100 for input_value >> cuttoff_point", () => {
+    expect(scoreFunction(100000, 123)).toEqual(100);
+  });
+});
 
 describe("preprocessString", () => {
   it("should remove all spaces", () => {

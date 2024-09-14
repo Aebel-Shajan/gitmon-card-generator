@@ -2,6 +2,34 @@ import IconMapping from "./IconMapping";
 import TypeMapping from "./TypeMapping";
 import { GithubRepo, GitmonType, Mapper, User } from "../types/global";
 
+/**
+ * Returns a score out of a 100 for a given input_value and cutoff_point.
+ *
+ * Uses a mathematical function which starts at (0, 0) and converges at y=100.
+ * The function reaches y=90 at x=cutoff_point.
+ * The equation for this is :
+ *     y(input_value) = 100 * (1 - exp(-k * input_value))
+ * Where:
+ *     k = -ln(0.1) / cutoff_point
+ * , note that -ln(0.1) = 2.30258509299
+ *
+ * @param input_value - The value you want to generate a score out of 100 for.
+ * @param cutoff_point - The point at which the score should return 90. (> 0)
+ * @returns Integer score value which is a number between 0 and 100. (inclusive)
+ *
+ * @throws {RangeError} If the cutoff point is negative or 0.
+ */
+export function scoreFunction(input_value: number, cutoff_point: number) {
+  if (cutoff_point <= 0) {
+    throw new RangeError(
+      `cutoff_point=${cutoff_point} should be greater than 0`,
+    );
+  }
+
+  const k = 2.30258509299 / cutoff_point;
+  return Math.round(100 * (1 - Math.exp(-1 * k * input_value)));
+}
+
 export function preprocessString(string: string): string {
   return string
     .toLowerCase()
@@ -110,6 +138,7 @@ export async function getGithubUserData(
       description: userData.bio ? userData.bio : "No bio :(",
       skills: topSkills,
       moves: repoMoves,
+      userScore: 0,
     };
   } catch (error) {
     console.error(error);
