@@ -11,6 +11,7 @@ import { describe, it, expect } from "vitest";
 
 describe("calculateGithubUserScore", () => {
   const exampleUser: GithubUser = {
+    html_url: "",
     login: "",
     id: 0,
     name: null,
@@ -30,7 +31,7 @@ describe("calculateGithubUserScore", () => {
   const exampleRepo: GithubRepo = {
     name: "",
     description: "",
-    url: "",
+    html_url: "",
     homepage: null,
     size: 0,
     default_branch: "master",
@@ -77,7 +78,7 @@ describe("calculateGithubRepoScore", () => {
   const exampleRepo: GithubRepo = {
     name: "",
     description: "",
-    url: "",
+    html_url: "",
     homepage: null,
     size: 0,
     default_branch: "master",

@@ -1,4 +1,5 @@
 export interface GithubUser {
+  html_url: string;
   login: string;
   id: number;
   name: string | null;
@@ -19,7 +20,7 @@ export interface GithubUser {
 export interface GithubRepo {
   name: string;
   description: string | null;
-  url: string;
+  html_url: string;
   homepage: string | null;
   size: number;
   default_branch: string;
@@ -36,9 +37,11 @@ export interface Move {
   types: string[];
   name: string;
   moveScore: number;
+  moveUrl: string;
 }
 
 export interface User {
+  url: string;
   username: string;
   id: number;
   name: string;
