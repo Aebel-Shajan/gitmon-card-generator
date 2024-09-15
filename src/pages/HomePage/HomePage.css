@@ -2,7 +2,6 @@
   width: 100%;
   min-height: 100vh;
   height: fit-content;
-  padding-bottom: 2rem;
 
   background-color: var(--color-bg-primary);
 
@@ -75,4 +74,34 @@
 #option-container {
   display: flex;
   gap: 1rem;
+}
+
+footer {
+  width: 100%;
+  padding: 1rem 2rem;
+
+  background-color: var(--color-bg-secondary);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  column-gap: 3rem;
+  row-gap: 2rem;
+}
+
+footer > a {
+  color: var(--color-text);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+footer > a:hover {
+  color: var(--color-accent);
+}
+
+#visits-image {
+  height: 1.4rem;
 }
