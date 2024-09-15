@@ -59,8 +59,12 @@ const UserCardFront = forwardRef<HTMLDivElement, UserCardFrontProps>(
             </div>
             <div className="card-id">{"# " + user.id}</div>
           </div>
-          <div>{user.userScore}</div>
-          <TypeIcon type={cardType} />
+          <div className="card-top-right">
+            <div className="card-hp">
+              <p>hp:</p> {user.userScore}
+            </div>
+            <TypeIcon type={cardType} />
+          </div>
         </div>
         <div className="card-image-container" onClick={onClick}>
           <a href={user.url} target="_blank">

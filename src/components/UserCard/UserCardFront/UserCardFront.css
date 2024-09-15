@@ -36,13 +36,29 @@
 }
 
 .card-title {
-  width: 75%;
+  width: 60%;
   height: 100%;
   overflow: hidden;
 }
 
 .card-id {
   font-size: xx-small;
+}
+
+.card-top-right {
+  display: flex;
+  gap: 0.5rem;
+}
+.card-hp {
+  width: fit-content;
+
+  display: flex;
+  align-items: center;
+
+  gap: 0.1rem;
+}
+.card-hp > p {
+  font-size: small;
 }
 
 .card-name {

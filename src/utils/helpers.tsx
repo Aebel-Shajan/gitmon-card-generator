@@ -304,7 +304,7 @@ export async function getGithubUserData(
       type: userType,
       image: userData.avatar_url,
       occupation: userData.company ? userData.company : userType,
-      description: userData.bio ? userData.bio : "No bio :(",
+      description: userData.bio ? userData.bio : "",
       skills: topSkills,
       moves: repoMoves,
       userScore: calculateGithubUserScore(userData, repoData),
