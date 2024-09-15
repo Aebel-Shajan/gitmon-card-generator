@@ -199,7 +199,7 @@ describe("calculateGitmonType", () => {
     expect(actualOutput).toEqual(expectedOutput);
   });
   it("should calculate cybersecurity type correctly", () => {
-    const tags = ["penetration testing", "c++", "c"];
+    const tags = ["penetration-testing", "bug-bounty", "exploits"];
     const actualOutput = calculateGitmonType(tags)[0].name;
     const expectedOutput = "cybersecurity";
     expect(actualOutput).toEqual(expectedOutput);
