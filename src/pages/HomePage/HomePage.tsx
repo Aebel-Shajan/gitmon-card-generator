@@ -7,7 +7,15 @@ import LoadingOverlay from "../../components/LoadingOverlay/LoadingOverlay";
 import { getGithubUserData } from "../../utils/helpers";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toBlob } from "html-to-image";
-import { FaDiceFive, FaShare, FaStar } from "react-icons/fa";
+import {
+  FaDiceFive,
+  FaDiscord,
+  FaGithub,
+  FaHandsHelping,
+  FaProjectDiagram,
+  FaShare,
+  FaStar,
+} from "react-icons/fa";
 import { PiSparkleBold } from "react-icons/pi";
 
 const HomePage = () => {
@@ -152,6 +160,30 @@ const HomePage = () => {
           <BlankCard />
         )}
       </LoadingOverlay>
+
+      <footer>
+        <a href="https://discord.gg/u3mktcZ8XR">
+          <FaDiscord />
+          Discord
+        </a>
+        <a href="https://github.com/aebel-shajan">
+          <FaGithub />
+          github
+        </a>
+        <a href="https://aebel-shajan.github.io#projects">
+          <FaProjectDiagram />
+          Check out my other projects
+        </a>
+        <a href="https://github.com/Aebel-Shajan/gitmon-card-generator">
+          <FaHandsHelping />
+          Contribute
+        </a>
+        <img
+          id="visits-image"
+          src="https://visit-counter.vercel.app/counter.png?page=https%3A%2F%2Fgitmon-card-generator.vercel.app%2F&s=40&c=ffffff&bg=00000000&no=6&tb=Visits%3A+&ta="
+          alt="visits"
+        ></img>
+      </footer>
     </div>
   );
 };
