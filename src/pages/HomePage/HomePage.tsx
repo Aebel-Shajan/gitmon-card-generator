@@ -10,6 +10,7 @@ import { toBlob } from "html-to-image";
 import {
   FaDiceFive,
   FaDiscord,
+  FaDownload,
   FaGithub,
   FaHandsHelping,
   FaProjectDiagram,
@@ -41,9 +42,12 @@ const HomePage = () => {
           setUser(userData);
         } catch (error) {
           console.error(error);
-          alert(`An error occurred while fetching user data. ${error}`);
+          alert(
+            `Error: You have passed the github api hourly rate limit of 60. \n Try again in an hour :(! \n${error}. `,
+          );
         } finally {
           setIsLoading(false);
+          setUsername(usernameParam);
         }
       };
       loadUser();
@@ -59,6 +63,26 @@ const HomePage = () => {
       return;
     }
     navigate(`/?query=${encodeURIComponent(username)}`);
+  }
+
+  async function handleDownload() {
+    try {
+      if (!userCardRef.current) {
+        alert("User card not loaded.");
+        return;
+      }
+      const newFile = await toBlob(userCardRef.current);
+      if (!newFile) {
+        alert("Error converting user card to image");
+        return;
+      }
+      const downloadLink = document.createElement("a");
+      downloadLink.href = URL.createObjectURL(newFile);
+      downloadLink.download = `gitmon-${username}.png`;
+      downloadLink.click();
+    } catch (err) {
+      alert(err);
+    }
   }
 
   async function handleShare() {
@@ -135,6 +159,10 @@ const HomePage = () => {
       </form>
 
       <div id="option-container" className="container">
+        <button className="button" onClick={handleDownload}>
+          <FaDownload />
+          Download
+        </button>
         <button className="button" onClick={handleShare}>
           <FaShare />
           Share
