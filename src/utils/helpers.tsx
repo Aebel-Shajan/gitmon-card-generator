@@ -311,6 +311,7 @@ export async function getGithubUserData(
     };
   } catch (error) {
     console.error(error);
+    throw error;
   }
 }
 
