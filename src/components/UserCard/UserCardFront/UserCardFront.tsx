@@ -29,7 +29,11 @@ const MoveComponent = ({ move }: MoveComponentProps) => {
   return (
     <div className="move-container">
       <TypesComponent types={move["types"]} />
-      <div className="move-name">{move["name"]}</div>
+      <div className="move-name">
+        <a href={move.moveUrl} target="_blank">
+          {move["name"]}
+        </a>
+      </div>
       <div className="move-score">{move["moveScore"]}</div>
     </div>
   );
@@ -59,7 +63,9 @@ const UserCardFront = forwardRef<HTMLDivElement, UserCardFrontProps>(
           <TypeIcon type={cardType} />
         </div>
         <div className="card-image-container" onClick={onClick}>
-          <img className="card-image" src={user.image} />
+          <a href={user.url} target="_blank">
+            <img className="card-image" src={user.image} />
+          </a>
         </div>
         <div className="card-occupation-container">
           <div className="card-occupation">{user.occupation}</div>

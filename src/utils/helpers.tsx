@@ -288,6 +288,7 @@ export async function getGithubUserData(
         types: repoTypes,
         name: repo.name,
         moveScore: calculateGithubRepoScore(repo),
+        moveUrl: repo.html_url,
       };
     });
 
@@ -296,6 +297,7 @@ export async function getGithubUserData(
 
     // Combine the data into a user object
     return {
+      url: userData.html_url,
       id: userData.id,
       username: userData.login,
       name: userData.name ? userData.name : "",

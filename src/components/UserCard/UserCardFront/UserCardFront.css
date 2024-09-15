@@ -158,3 +158,8 @@
   align-items: center;
   gap: 0.5rem;
 }
+
+.card-container a {
+  text-decoration: none;
+  color: black;
+}
