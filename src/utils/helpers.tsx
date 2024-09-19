@@ -253,9 +253,21 @@ export async function getGithubUserData(
 
     // Handle errors
     if (!userResponse.ok) {
-      throw new Error(`Response status: ${userResponse.status}`);
+      if (userResponse.status === 403) {
+        throw new Error(
+          `Github rate limit of 60 requests reached! Try again in an hour.`,
+        );
+      }
+      if (userResponse.status === 404) {
+        throw new Error(`Github username ${username} could not be found!`);
+      }
     }
     if (!repoResponse.ok) {
+      if (repoResponse.status === 403) {
+        throw new Error(
+          `Github rate limit of 60 requests reached! Try again in an hour.`,
+        );
+      }
       throw new Error(`Response status: ${repoResponse.status}`);
     }
 
