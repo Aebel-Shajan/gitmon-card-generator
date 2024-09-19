@@ -33,16 +33,17 @@ const HomePage = () => {
         setIsLoading(true);
         try {
           const userData = await getGithubUserData(usernameParam);
-          if (!userData) {
-            alert("Enter a valid github username!");
-            setIsLoading(false);
-            navigate("/");
+          if (userData) {
+            setUser(userData);
+          } else {
+            alert("Error getting user data.");
+          }
+        } catch (error) {
+          if (!(error instanceof Error)) {
+            alert(`undefined error: ${error}`);
             return;
           }
-          setUser(userData);
-        } catch (error) {
-          console.error(error);
-          alert(error);
+          alert(error.message);
         } finally {
           setIsLoading(false);
           setUsername(usernameParam);
