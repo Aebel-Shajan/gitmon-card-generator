@@ -42,9 +42,7 @@ const HomePage = () => {
           setUser(userData);
         } catch (error) {
           console.error(error);
-          alert(
-            `Error: You have passed the github api hourly rate limit of 60. \n Try again in an hour :(! \n${error}. `,
-          );
+          alert(error);
         } finally {
           setIsLoading(false);
           setUsername(usernameParam);
