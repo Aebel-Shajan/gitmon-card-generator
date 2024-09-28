@@ -6,6 +6,11 @@ https://gitmon-card-generator.vercel.app/
 
 [![][thumbnail]](https://gitmon-card-generator.vercel.app/)
 
+## Contents
+* [Technology Stack](#technology-stack)
+* [Usage](#usage)
+* [Contributors](#contributors)
+
 ## Technology Stack
 
 Tech | Description
@@ -56,4 +61,4 @@ npm run dev
 [thumbnail]: https://raw.githubusercontent.com/Aebel-Shajan/gitmon-card-generator/main/thumbnail.png
 
 ## Contributors
-Contributions are more than welcome :). If you have a feature request [raise an issue](https://github.com/Aebel-Shajan/gitmon-card-generator/issues/new). Also feel free to fork and [submit a pull request too.](https://github.com/Aebel-Shajan/gitmon-card-generator/compare)
+Contributions are more than welcome :). If you have a feature request [raise an issue](https://github.com/Aebel-Shajan/gitmon-card-generator/issues/new). Also feel free to fork and [submit a pull request too.](https://github.com/Aebel-Shajan/gitmon-card-generator/compare). If the precommit hooks are a pain i'll remove them.
