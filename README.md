@@ -4,7 +4,9 @@ Enter your github username to generate your own gitmon card.
 
 https://gitmon-card-generator.vercel.app/
 
-[![][thumbnail]](https://gitmon-card-generator.vercel.app/)
+|[![][thumbnail]](https://gitmon-card-generator.vercel.app/)
+
+https://github.com/user-attachments/assets/7e8579d6-a05f-4df4-8cdc-1011b712e2e1
 
 ## Contents
 * [Technology Stack](#technology-stack)
