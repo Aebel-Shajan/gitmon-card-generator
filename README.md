@@ -29,6 +29,7 @@ lint-staged	| Tool that runs linters on files staged for commit in Git to ensure
 Before setting up the project, make sure you have the following tools installed:
 * Node.js (version 14 or higher recommended)
 * Git (for cloning the repository)
+* A terminal (To enter the commands into)
 
 ### Project Setup
 1. Clone the repository:
@@ -62,3 +63,17 @@ npm run dev
 
 ## Contributors
 Contributions are more than welcome :). If you have a feature request [raise an issue](https://github.com/Aebel-Shajan/gitmon-card-generator/issues/new). Also feel free to fork and [submit a pull request too.](https://github.com/Aebel-Shajan/gitmon-card-generator/compare). If the precommit hooks are a pain i'll remove them.
+
+Read [CONTRIBUTING.md](./docs/CONTRIBUTING.md) for more details
+
+[![][aebel-card]][aebel-gh] | [![][octocat-card]][octocat-gh] | [![][octocat-card]][octocat-gh] | [![][octocat-card]][octocat-gh]
+-|-|-|-
+
+
+<!-- Links -->
+[aebel-gh]: https://github.com/aebel-shajan
+[octocat-gh]: https://github.com/octocat
+
+<!-- Assets -->
+[aebel-card]: ./docs/assets/gitmon-aebel-shajan.png
+[octocat-card]: ./docs/assets/gitmon-octocat.png
