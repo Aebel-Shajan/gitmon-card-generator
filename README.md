@@ -54,3 +54,6 @@ npm run dev
 [npm]: https://img.shields.io/badge/npm-CB3837?logo=npm&logoColor=fff&style=for-the-badge
 
 [thumbnail]: https://raw.githubusercontent.com/Aebel-Shajan/gitmon-card-generator/main/thumbnail.png
+
+## Contributors
+Contributions are more than welcome :). If you have a feature request [raise an issue](https://github.com/Aebel-Shajan/gitmon-card-generator/issues/new). Also feel free to fork and [submit a pull request too.](https://github.com/Aebel-Shajan/gitmon-card-generator/compare)
