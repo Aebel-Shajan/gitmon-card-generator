@@ -19,7 +19,31 @@ Husky	| Used to run linting & formatting when code is commited.
 lint-staged	| Tool that runs linters on files staged for commit in Git to ensure code quality before committing changes.
 ![][npm] | npm is the package manager for the Node.js ecosystem.
 
+## Usage
+### Prerequisites
+Before setting up the project, make sure you have the following tools installed:
+* Node.js (version 14 or higher recommended)
+* Git (for cloning the repository)
 
+### Project Setup
+1. Clone the repository:
+```bash
+git clone https://github.com/Aebel-Shajan/gitmon-card-generator.git
+```
+2. Navigate into the project directory:
+```bash
+cd gitmon-card-generator
+```
+3. Install npm dependencies:
+```bash
+npm install
+```
+### Running the Project
+1. Start the vite development server
+```bash
+npm run dev
+```
+2. Go to http://localhost:5173/ or the link displayed in the terminal
 
 
 [typescript]: https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=fff&style=for-the-badge
