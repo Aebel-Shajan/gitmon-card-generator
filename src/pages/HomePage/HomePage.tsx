@@ -140,59 +140,57 @@ const HomePage = () => {
     <div id="home-page-container">
       <h1 id="title">Gitmon Card Generator</h1>
 
-      <form onSubmit={buttonOnClick} id="generate-form">
-        <label>Enter your github username here:</label>
-        <div id="form-input-container">
-          <input
-            id="form-input"
-            name="github-username"
-            type="text"
-            value={username}
-            onChange={(event) => setUsername(event.target.value)}
-          />
-          <button className="button" type="submit" id="generate-button">
-            <PiSparkleBold />
-            Generate
-          </button>
-        </div>
-      </form>
+      <div id="main-content">
+        <form onSubmit={buttonOnClick} id="generate-form">
+          <label>Enter your github username here:</label>
+          <div id="form-input-container">
+            <input
+              id="form-input"
+              name="github-username"
+              type="text"
+              value={username}
+              onChange={(event) => setUsername(event.target.value)}
+            />
+            <button className="button" type="submit" id="generate-button">
+              <PiSparkleBold />
+              Generate
+            </button>
+          </div>
+        </form>
 
-      <div id="option-container" className="container">
-        <button className="button" onClick={handleDownload}>
-          <FaDownload />
-          Download
-        </button>
-        <button className="button" onClick={handleShare}>
-          <FaShare />
-          Share
-        </button>
-        <button className="button" onClick={handleRandomise}>
-          <FaDiceFive />
-          Randomise
-        </button>
-        <a
-          href="https://github.com/Aebel-Shajan/gitmon-card-generator"
-          className="button"
-          target="_blank"
-        >
-          <FaStar />
-          Star Repo 🤩
-        </a>
+        <div id="option-container" className="container">
+          <button className="button" onClick={handleDownload}>
+            <FaDownload />
+            Download
+          </button>
+          <button className="button" onClick={handleShare}>
+            <FaShare />
+            Share
+          </button>
+          <button className="button" onClick={handleRandomise}>
+            <FaDiceFive />
+            Randomise
+          </button>
+          <a
+            href="https://github.com/Aebel-Shajan/gitmon-card-generator"
+            className="button"
+            target="_blank"
+          >
+            <FaStar />
+            Star Repo 🤩
+          </a>
+        </div>
+
+        <LoadingOverlay isLoading={isLoading}>
+          {user ? (
+            <UserCardFront user={user} onClick={() => { }} ref={userCardRef} />
+          ) : (
+            <BlankCard />
+          )}
+        </LoadingOverlay>
       </div>
 
-      <LoadingOverlay isLoading={isLoading}>
-        {user ? (
-          <UserCardFront user={user} onClick={() => {}} ref={userCardRef} />
-        ) : (
-          <BlankCard />
-        )}
-      </LoadingOverlay>
-
       <footer>
-        <a href="https://discord.gg/u3mktcZ8XR">
-          <FaDiscord />
-          Discord
-        </a>
         <a href="https://github.com/aebel-shajan">
           <FaGithub />
           github
